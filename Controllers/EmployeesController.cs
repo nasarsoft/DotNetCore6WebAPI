@@ -76,6 +76,19 @@ namespace WebApplication3.Controllers
 
         }
 
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> DeleteEmployee([FromRoute] Guid id)
+        {
+            var employee = await _fullStackDbContext.employees.FindAsync(id);
+            if(employee == null)
+            {
+                return NotFound();
+            }
+            _fullStackDbContext.employees.Remove(employee);
+            await _fullStackDbContext.SaveChangesAsync();
+            return Ok(employee);
+        }
 
     }
 }
